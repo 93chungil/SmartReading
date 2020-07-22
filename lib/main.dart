@@ -1,42 +1,66 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+
 import 'package:smart_reading/screens/grouphome.dart';
 import 'package:smart_reading/screens/home.dart';
 import 'package:smart_reading/screens/userhome.dart';
 import 'package:smart_reading/screens/messagehome.dart';
-import 'package:smart_reading/helpers/dialog_helper.dart';
 import 'package:smart_reading/constants.dart' as Constants;
 import 'package:smart_reading/screens/write_journal_page.dart';
+import 'package:smart_reading/login.dart';
+import 'package:smart_reading/register.dart';
+import 'package:smart_reading/translations.dart';
+import 'package:smart_reading/application.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
+  // bool isLogged = (prefs.getBool('isLogged') ?? false) ;
 
-class MyApp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      home: FirstScreen(),
-    );
-  }
+  // var home;
+  // if(isLogged)
+  //   home = ProfileRoute();
+  // else
+  //   home = LoginRoute();
+    
+  runApp(MyApp());
 }
 
-class FirstScreen extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  SpecifiedLocalizationsDelegate _localeOverrideDelegate;
+
+  @override
+  void initState() {
+    super.initState();
+    _localeOverrideDelegate = new SpecifiedLocalizationsDelegate(new Locale("ko", ''));
+  }
+
+  onLocaleChange(Locale l) {
+    setState(() {
+      _localeOverrideDelegate = new SpecifiedLocalizationsDelegate(l);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('똑똑해지는 독서모임'),
-        backgroundColor: Constants.MAIN_COLOR,
-      ),
-      body: Center(
-        child: RaisedButton(
-          child: Text('Launch screen'),
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Main()),
-            );
-          },
-        ),
-      ),
+    return new MaterialApp(
+      localizationsDelegates: [
+        _localeOverrideDelegate,
+        const TranslationsDelegate(),
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ],
+      supportedLocales: applic.supportedLocales(),
+      home: Login(),
+      routes: {
+        '/login' : (context) => Login() ,
+        '/register' : (context) => Register() ,
+        '/main' : (context) => Main() ,
+      }
     );
   }
 }
@@ -54,18 +78,6 @@ class _MainState extends State<Main> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("똑서"),
-        backgroundColor: Constants.MAIN_COLOR,
-        actions: <Widget>[
-          IconButton(
-              icon: Icon(Icons.search),
-              onPressed: () {
-                showSearch(context: context, delegate: DataSearch());
-              })
-        ],
-      ),
-      drawer: Drawer(),
       body: bodies[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
@@ -73,14 +85,16 @@ class _MainState extends State<Main> {
           backgroundColor: Constants.MAIN_COLOR,
           selectedItemColor: Colors.lightGreenAccent,
           unselectedItemColor: Colors.lightGreen,
+          showSelectedLabels: false,
+          showUnselectedLabels: false,
           items: [
             BottomNavigationBarItem(
               icon: Icon(Icons.home),
-              title: Text('Home'),
+              title: Text(''),
             ),
              BottomNavigationBarItem(
               icon: Icon(Icons.group),
-              title: Text('GroupHome'),
+              title: Text(''),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.add),
@@ -88,11 +102,11 @@ class _MainState extends State<Main> {
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.mail),
-              title: Text('Messages'),
+              title: Text(''),
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.person),
-              title: Text('UserHome'),
+              title: Text(''),
             ),
           ],
           onTap: (index) {
@@ -106,82 +120,6 @@ class _MainState extends State<Main> {
               setState(() => _currentIndex = index);
             }
           }),
-    );
-  }
-}
-
-class DataSearch extends SearchDelegate<String> {
-  final books = ['Death', 'Originals', 'Thinking Fast and Slow', '관점을 디자인하다'];
-
-  final recentbooks = ['Death', '관점을 디자인하다'];
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-          icon: Icon(Icons.clear),
-          onPressed: () {
-            query = "";
-          }),
-    ];
-  }
-
-  @override
-  Widget buildLeading(BuildContext context) {
-    return IconButton(
-        icon: AnimatedIcon(
-          icon: AnimatedIcons.menu_arrow,
-          progress: transitionAnimation,
-        ),
-        onPressed: () {
-          close(context, null);
-        });
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    // TODO: Implement Search Result Page
-    return Center(
-      child: Container(
-        height: 100.0,
-        width: 100.0,
-        child: Card(
-          color: Colors.red,
-          shape: StadiumBorder(),
-          child: Center(
-            child: Text(query),
-          ),
-        ),
-      ),
-    );
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    final suggestionList = query.isEmpty
-        ? recentbooks
-        : books.where((p) => p.startsWith(query)).toList();
-
-    return ListView.builder(
-      itemCount: suggestionList.length,
-      itemBuilder: (context, index) => ListTile(
-        onTap: () {
-          showResults(context);
-        },
-        leading: Icon(Icons.book),
-        title: RichText(
-          text: TextSpan(
-              text: suggestionList[index].substring(0, query.length),
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-              children: [
-                TextSpan(
-                    text: suggestionList[index].substring(query.length),
-                    style: TextStyle(color: Colors.grey))
-              ]),
-        ),
-      ),
     );
   }
 }

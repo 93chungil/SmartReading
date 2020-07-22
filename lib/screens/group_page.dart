@@ -1,23 +1,27 @@
 import 'package:flutter/material.dart';
+
 import 'package:smart_reading/models/book_info.dart';
 import 'package:smart_reading/constants.dart' as Constants;
+import 'package:smart_reading/models/group.dart';
 import 'package:smart_reading/models/user.dart';
 import 'package:smart_reading/screens/folder_page.dart';
 import 'package:smart_reading/translations.dart';
 import 'package:smart_reading/models/data_search.dart';
 
-class UserHome extends StatefulWidget {
+class GroupPage extends StatefulWidget {
+  final Group group;
+  GroupPage(this.group);
   @override
-  _UserHomeState createState() => _UserHomeState();
+  _GroupPageState createState() => _GroupPageState();
 }
 
-class _UserHomeState extends State<UserHome> {
+class _GroupPageState extends State<GroupPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          currentUser.name,
+          widget.group.name,
           style: TextStyle(
             fontSize: Constants.APPBAR_FONTSIZE,
             fontWeight: FontWeight.bold,
@@ -48,9 +52,9 @@ class _UserHomeState extends State<UserHome> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(35.0),
                         image: DecorationImage(
-                            image: currentUser.imageUrl.isEmpty
+                            image: widget.group.imageUrl.isEmpty
                                 ? AssetImage('assets/images/nick.jpg')
-                                : AssetImage(currentUser.imageUrl), // TODO Change to NetworkImage
+                                : AssetImage(widget.group.imageUrl), // TODO Change to NetworkImage
                             fit: BoxFit.cover),
                       )),
                 ),
@@ -62,7 +66,7 @@ class _UserHomeState extends State<UserHome> {
                         padding: const EdgeInsets.only(left: 10.0, top: 20.0),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: Text(currentUser.name,
+                          child: Text(widget.group.name,
                               style: TextStyle(
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
@@ -155,6 +159,7 @@ class _UserHomeState extends State<UserHome> {
             Container(
               height: 160,
               child: ListView(
+                // This next line does the trick.
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
                 children: _buildRecentBooks(context),

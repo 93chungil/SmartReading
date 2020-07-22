@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 
-class Group {
-  String groupName;
-  Image groupPic;
+import 'package:smart_reading/models/book.dart';
+import 'package:smart_reading/models/user.dart';
 
-  Group(this.groupName, this.groupPic);
+class Group {
+  final int id;
+  final String name;
+  final String imageUrl;
+  List<User> members;
+  List<Book> books;
+  
+  Group(this.id, this.name, this.imageUrl);
 }

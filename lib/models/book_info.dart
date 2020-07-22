@@ -1,17 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:smart_reading/screens/my_book_page.dart';
-
-class Book {
-  String title;
-  String subtitle;
-  List<String> authors;
-  String publisher;
-  DateTime publish_date;
-  Map<String, String> industry_identifiers;
-  Image cover;
-
-  Book(this.title, this.authors, this.cover);
-}
+import 'package:smart_reading/models/book.dart';
 
 class BookInfoFeed extends StatelessWidget {
   final String from;
@@ -31,7 +20,7 @@ class BookInfoFeed extends StatelessWidget {
       child: ListTile(
         leading: ClipRRect(
           borderRadius: BorderRadius.circular(8.0),
-          child: book.cover,
+          child: Image.asset(book.imageUrl),
         ),
         title: Text(book.title),
         subtitle: Text(book.authors.join(',')),
@@ -42,8 +31,8 @@ class BookInfoFeed extends StatelessWidget {
 }
 
 class BookInfoButton extends StatelessWidget {
-  final Book book;
-  BookInfoButton(this.book);
+  final UserBook userBook;
+  BookInfoButton(this.userBook);
 
   @override
   Widget build(BuildContext context) {
@@ -58,20 +47,21 @@ class BookInfoButton extends StatelessWidget {
                 margin: EdgeInsets.only(bottom: 7.5),
                 decoration: BoxDecoration(
                   image: DecorationImage(
-                    image: book.cover.image, // <--- .image added here
+                    image: AssetImage(userBook.book.imageUrl), // <--- .image added here
                   ),
                 ),
               ),
               onTap: () {
+                userBook.modified_at = DateTime.now();
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MyBookPage()),
+                  MaterialPageRoute(builder: (context) => MyBookPage(userBook)),
                 );
               },
             ),
           ),
           Text(
-            book.title,
+            userBook.book.title,
             style: TextStyle(
               fontSize: 10,
               fontWeight: FontWeight.bold,
@@ -82,7 +72,7 @@ class BookInfoButton extends StatelessWidget {
           ),
           Align(
             child: Text(
-              book.authors.join(','),
+              userBook.book.authors.join(','),
               style: TextStyle(fontSize: 10),
             ),
             alignment: Alignment.center,

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:smart_reading/constants.dart' as Constants;
+import 'package:smart_reading/models/group.dart';
+import 'package:smart_reading/models/user.dart';
+import 'package:smart_reading/translations.dart';
+import 'package:smart_reading/models/data_search.dart';
 
 class GroupHome extends StatefulWidget {
   @override
@@ -10,6 +14,24 @@ class _GroupHomeState extends State<GroupHome> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text(
+          Translations.of(context).text('title'),
+          style: TextStyle(
+              fontSize: Constants.APPBAR_FONTSIZE,
+              fontWeight: FontWeight.bold,
+          ),
+        ),
+        backgroundColor: Constants.MAIN_COLOR,
+        actions: <Widget>[
+          IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                showSearch(context: context, delegate: DataSearch());
+              })
+        ],
+      ),
+      drawer: Drawer(),
       backgroundColor: Constants.MAIN_BACKGROUND,
       body: SingleChildScrollView(
         child: Column(
@@ -34,13 +56,10 @@ class _GroupHomeState extends State<GroupHome> {
             Divider(color: Colors.grey),
             Container(
               height: 120,
-              child: ListView.builder(
-                // This next line does the trick.
+              child: ListView(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: Constants.litems.length,
-                itemBuilder: (context, index) =>
-                    _buildGroupLinkTile(context, index),
+                children: _buildRecentBookClubs(context),
               ),
             ),
             Divider(color: Colors.grey),
@@ -71,6 +90,15 @@ class _GroupHomeState extends State<GroupHome> {
   }
 }
 
+List<Widget> _buildRecentBookClubs(BuildContext context) {
+  List<Widget> returnList = [];
+  for (var group in currentUser.recentgroups) {
+    returnList.add(_buildGroupLinkTile(group));
+  }
+  return returnList;
+}
+
+
 Widget _buildGroupLinkLine(BuildContext context, int index) {
   return new ListTile(
     leading: CircleAvatar(
@@ -81,7 +109,7 @@ Widget _buildGroupLinkLine(BuildContext context, int index) {
   );
 }
 
-Widget _buildGroupLinkTile(BuildContext context, int index) {
+Widget _buildGroupLinkTile(Group group) {
   return new Container(
     height: 100,
     width: 80,
@@ -94,7 +122,7 @@ Widget _buildGroupLinkTile(BuildContext context, int index) {
           child: ConstrainedBox(
             constraints: BoxConstraints.expand(),
             child: Ink.image(
-              image: AssetImage('assets/images/profileimage.png'),
+              image: AssetImage(group.imageUrl),
               child: InkWell(
                 onTap: null,
               ),
@@ -102,7 +130,7 @@ Widget _buildGroupLinkTile(BuildContext context, int index) {
           ),
         ),
         Text(
-          "Chungil's Book Club",
+          group.name,
           textAlign: TextAlign.center,
           style: TextStyle(fontSize: 10),
         ),

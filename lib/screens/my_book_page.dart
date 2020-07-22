@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:smart_reading/constants.dart' as Constants;
-import 'package:smart_reading/models/reading_journal_feed.dart';
-import 'package:smart_reading/models/topic_reply_feed.dart';
+import 'package:smart_reading/models/book.dart';
+import 'package:smart_reading/models/journal.dart';
+import 'package:smart_reading/models/topic_reply.dart';
+import 'package:smart_reading/screens/book_page.dart';
+import 'package:smart_reading/translations.dart';
 
 class MyBookPage extends StatefulWidget {
+  final UserBook userBook;
+  MyBookPage(this.userBook);
   @override
   _MyBookPageState createState() => _MyBookPageState();
 }
@@ -44,13 +49,13 @@ class _MyBookPageState extends State<MyBookPage> with SingleTickerProviderStateM
                     tabs: [
                       Tab(
                         child: Text(
-                          "독서기록",
+                          Translations.of(context).text('journals'),
                           textAlign: TextAlign.center,
                         ),
                       ),
                       Tab(
                         child: Text(
-                          "논제답변",
+                          Translations.of(context).text('articles'),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -97,8 +102,18 @@ class _MyBookPageState extends State<MyBookPage> with SingleTickerProviderStateM
 //                ),
                   automaticallyImplyLeading: true,
                   elevation: 0,
-                  title: Text("똑서",),
+                  title: Text(widget.userBook.book.title,),
                   centerTitle: true,
+                  actions: <Widget>[
+                    IconButton(
+                        icon: Icon(Icons.book),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => BookPage(widget.userBook.book)),
+                          );
+                        })
+                  ],
                 ),
               ),
             ),

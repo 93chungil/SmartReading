@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_reading/constants.dart' as Constants;
 import 'package:smart_reading/models/book_info.dart';
 import 'package:smart_reading/models/user.dart';
+import 'package:smart_reading/models/book.dart';
 
 class TopicReply {
   User user;

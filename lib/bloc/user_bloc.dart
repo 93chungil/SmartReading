@@ -1,7 +1,7 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:smart_reading/models/book_info.dart';
+import 'package:smart_reading/models/book.dart';
 import 'package:smart_reading/models/group.dart';
 
 class UserBloc extends ChangeNotifier {
@@ -25,10 +25,11 @@ class UserBloc extends ChangeNotifier {
     notifyListeners();
   }
 
-  List<Book> getRecentBooks() {
-    return _recentBooks.getReverseList();
+  List<Group> getRecentGroup() {
+    return _recentGroups.getReverseList();
   }
 }
+
 
 
 

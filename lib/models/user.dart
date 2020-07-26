@@ -1,3 +1,5 @@
+import 'dart:collection';
+
 import 'package:dash_chat/dash_chat.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -29,20 +31,26 @@ class User {
     Group(9, "Hyeonggab's Book Club", "assets/images/profileimage.png"),
     Group(10, "Hyojoo's Book Club", "assets/images/profileimage.png"),
   ];
-  ListQueue<Group> recentgroups = new ListQueue<Group>(10)
+  ListQueue<Group> recentgroups = new ListQueue<Group>(10);
 
   List<UserBook> userbooks = [
-      UserBook(Constants.defaultBook, null, 380, 130, DateTime(2020, 01, 20, 3, 50, 0), DateTime(2020, 01, 20, 3, 50, 0)),
-      UserBook(Constants.defaultBook2, null, 38, 12, DateTime(2020, 2, 20, 12, 20, 0), DateTime(2020, 2, 20, 12, 20, 0)),
-      UserBook(Constants.defaultBook3, null, 80, 60, DateTime(2020, 3, 20, 13, 50, 0), DateTime(2020, 3, 20, 13, 50, 0)),
-      UserBook(Constants.defaultBook4, null, 830, 120, DateTime(2019, 3, 20, 20, 50, 60), DateTime(2019, 3, 20, 20, 50, 60)),
-      UserBook(Constants.defaultBook5, null, 500, 430, DateTime(2020, 4, 20, 18, 50, 30), DateTime(2020, 4, 20, 18, 50, 30)),
-      UserBook(Constants.defaultBook6, null, 100, 60, DateTime(2019, 12, 20, 6, 50, 30), DateTime(2019, 12, 20, 18, 50, 30)),
-      UserBook(Constants.defaultBook7, null, 60, 60, DateTime(2019, 6, 20, 3, 20, 30), DateTime(2019, 7, 31, 3, 50, 30)),
-      UserBook(Constants.defaultBook8, null, 780, 750, DateTime(2019, 1, 20, 15, 50, 30), DateTime(2020, 01, 20, 3, 50, 30)),
+    UserBook(Constants.defaultBook, null, 380, 130,
+        DateTime(2020, 01, 20, 3, 50, 0), DateTime(2020, 01, 20, 3, 50, 0)),
+    UserBook(Constants.defaultBook2, null, 38, 12,
+        DateTime(2020, 2, 20, 12, 20, 0), DateTime(2020, 2, 20, 12, 20, 0)),
+    UserBook(Constants.defaultBook3, null, 80, 60,
+        DateTime(2020, 3, 20, 13, 50, 0), DateTime(2020, 3, 20, 13, 50, 0)),
+    UserBook(Constants.defaultBook4, null, 830, 120,
+        DateTime(2019, 3, 20, 20, 50, 60), DateTime(2019, 3, 20, 20, 50, 60)),
+    UserBook(Constants.defaultBook5, null, 500, 430,
+        DateTime(2020, 4, 20, 18, 50, 30), DateTime(2020, 4, 20, 18, 50, 30)),
+    UserBook(Constants.defaultBook6, null, 100, 60,
+        DateTime(2019, 12, 20, 6, 50, 30), DateTime(2019, 12, 20, 18, 50, 30)),
+    UserBook(Constants.defaultBook7, null, 60, 60,
+        DateTime(2019, 6, 20, 3, 20, 30), DateTime(2019, 7, 31, 3, 50, 30)),
+    UserBook(Constants.defaultBook8, null, 780, 750,
+        DateTime(2019, 1, 20, 15, 50, 30), DateTime(2020, 01, 20, 3, 50, 30)),
   ];
-
-
 
   int getFollwers() {
     followers = [saito, greg];
@@ -146,7 +154,9 @@ class User {
                 margin: EdgeInsets.only(top: 5.0, bottom: 5.0, right: 20.0),
                 padding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                 decoration: BoxDecoration(
-                  color: recentChat.customProperties['unread'] ? Color(0xFFFFEFEE) : Colors.white,
+                  color: recentChat.customProperties['unread']
+                      ? Color(0xFFFFEFEE)
+                      : Colors.white,
                   borderRadius: BorderRadius.only(
                     topRight: Radius.circular(20.0),
                     bottomRight: Radius.circular(20.0),
@@ -232,8 +242,13 @@ class User {
     );
   }
 
-  User(this.id,this.name,this.imageUrl,) {
-    chatUser = ChatUser(uid: this.id.toString(), name: this.name, avatar: this.imageUrl);
+  User(
+    this.id,
+    this.name,
+    this.imageUrl,
+  ) {
+    chatUser = ChatUser(
+        uid: this.id.toString(), name: this.name, avatar: this.imageUrl);
   }
 }
 

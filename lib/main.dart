@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+// TODO REMOVE WITH SERVER
+import 'package:smart_reading/models/user.dart';
 
 import 'package:smart_reading/screens/grouphome.dart';
 import 'package:smart_reading/screens/home.dart';
@@ -21,7 +23,7 @@ void main() {
   //   home = ProfileRoute();
   // else
   //   home = LoginRoute();
-    
+
   runApp(MyApp());
 }
 
@@ -36,7 +38,10 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    _localeOverrideDelegate = new SpecifiedLocalizationsDelegate(new Locale("ko", ''));
+    _localeOverrideDelegate =
+        new SpecifiedLocalizationsDelegate(new Locale("ko", ''));
+    // TODO REMOVE WITH SERVER
+    currentUser = User(0, 'abcd', "assets/images/profileimage.png");
   }
 
   onLocaleChange(Locale l) {
@@ -55,12 +60,13 @@ class _MyAppState extends State<MyApp> {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: applic.supportedLocales(),
-      home: Login(),
+      // home: Login(),
+      home: Main(),
       routes: {
-        '/login' : (context) => Login() ,
-        '/register' : (context) => Register() ,
-        '/main' : (context) => Main() ,
-      }
+        '/login': (context) => Login(),
+        '/register': (context) => Register(),
+        '/main': (context) => Main(),
+      },
     );
   }
 }
@@ -73,7 +79,15 @@ class Main extends StatefulWidget {
 class _MainState extends State<Main> {
   int _currentIndex = 0;
 
-  final bodies = [Home(), GroupHome(), Container(color: Colors.grey,), MessageHome(), UserHome()];
+  final bodies = [
+    Home(),
+    GroupHome(),
+    Container(
+      color: Colors.grey,
+    ),
+    MessageHome(),
+    UserHome()
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +106,7 @@ class _MainState extends State<Main> {
               icon: Icon(Icons.home),
               title: Text(''),
             ),
-             BottomNavigationBarItem(
+            BottomNavigationBarItem(
               icon: Icon(Icons.group),
               title: Text(''),
             ),
@@ -115,8 +129,7 @@ class _MainState extends State<Main> {
                 context,
                 MaterialPageRoute(builder: (context) => WriteJournalPage()),
               );
-            }
-            else {
+            } else {
               setState(() => _currentIndex = index);
             }
           }),

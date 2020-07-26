@@ -36,7 +36,6 @@ class _GroupPageState extends State<GroupPage> {
               })
         ],
       ),
-      drawer: Drawer(),
       backgroundColor: Constants.MAIN_BACKGROUND,
       body: SingleChildScrollView(
         child: Column(
@@ -54,7 +53,8 @@ class _GroupPageState extends State<GroupPage> {
                         image: DecorationImage(
                             image: widget.group.imageUrl.isEmpty
                                 ? AssetImage('assets/images/nick.jpg')
-                                : AssetImage(widget.group.imageUrl), // TODO Change to NetworkImage
+                                : AssetImage(widget.group
+                                    .imageUrl), // TODO Change to NetworkImage
                             fit: BoxFit.cover),
                       )),
                 ),
@@ -205,9 +205,7 @@ class _GroupPageState extends State<GroupPage> {
           )
         ],
       ),
-      onTap: () {
-        
-      },
+      onTap: () {},
     );
   }
 }

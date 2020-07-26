@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:smart_reading/constants.dart' as Constants;
 import 'package:smart_reading/models/group.dart';
 import 'package:smart_reading/models/user.dart';
+import 'package:smart_reading/screens/group_page.dart';
 import 'package:smart_reading/translations.dart';
 import 'package:smart_reading/models/data_search.dart';
 
@@ -11,6 +12,7 @@ class GroupHome extends StatefulWidget {
 }
 
 class _GroupHomeState extends State<GroupHome> {
+  double recentBookHeight = currentUser.recentgroups.length > 0 ? 120 : 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -18,8 +20,8 @@ class _GroupHomeState extends State<GroupHome> {
         title: Text(
           Translations.of(context).text('title'),
           style: TextStyle(
-              fontSize: Constants.APPBAR_FONTSIZE,
-              fontWeight: FontWeight.bold,
+            fontSize: Constants.APPBAR_FONTSIZE,
+            fontWeight: FontWeight.bold,
           ),
         ),
         backgroundColor: Constants.MAIN_COLOR,
@@ -55,7 +57,7 @@ class _GroupHomeState extends State<GroupHome> {
             ),
             Divider(color: Colors.grey),
             Container(
-              height: 120,
+              height: recentBookHeight,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
@@ -77,12 +79,7 @@ class _GroupHomeState extends State<GroupHome> {
               ),
             ),
             Divider(color: Colors.grey),
-            Column(
-              children: List.generate(
-                Constants.litems.length + 5,
-                (index) => _buildGroupLinkLine(context, index),
-              ),
-            ),
+            Column(children: _buildBookClubList(context)),
           ],
         ),
       ),
@@ -93,23 +90,34 @@ class _GroupHomeState extends State<GroupHome> {
 List<Widget> _buildRecentBookClubs(BuildContext context) {
   List<Widget> returnList = [];
   for (var group in currentUser.recentgroups) {
-    returnList.add(_buildGroupLinkTile(group));
+    returnList.add(_buildGroupLinkTile(context, group));
   }
   return returnList;
 }
 
+List<Widget> _buildBookClubList(BuildContext context) {
+  List<Widget> returnList = [];
+  for (var group in currentUser.groups) {
+    returnList.add(_buildGroupLinkLine(context, group));
+  }
+  return returnList;
+}
 
-Widget _buildGroupLinkLine(BuildContext context, int index) {
+Widget _buildGroupLinkLine(BuildContext context, Group group) {
   return new ListTile(
     leading: CircleAvatar(
       radius: 20.0,
-      backgroundImage: AssetImage('assets/images/profileimage.png'),
+      backgroundImage: AssetImage(group.imageUrl),
     ),
-    title: Text("Chungil's Book Club"),
+    title: Text(group.name),
+    onTap: () => Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => GroupPage(group)),
+    ),
   );
 }
 
-Widget _buildGroupLinkTile(Group group) {
+Widget _buildGroupLinkTile(BuildContext context, Group group) {
   return new Container(
     height: 100,
     width: 80,
@@ -124,8 +132,11 @@ Widget _buildGroupLinkTile(Group group) {
             child: Ink.image(
               image: AssetImage(group.imageUrl),
               child: InkWell(
-                onTap: null,
-              ),
+                  onTap: () => Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => GroupPage(group)),
+                      )),
             ),
           ),
         ),

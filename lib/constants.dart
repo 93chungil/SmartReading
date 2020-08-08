@@ -32,15 +32,16 @@ Book defaultBook6 = Book("Slow", ["Daniel Kahneman"], "assets/images/bookimg.jpg
 Book defaultBook7 = Book("Fast", ["Daniel Kahneman"], "assets/images/bookimg.jpg", new Map<String, String>());
 Book defaultBook8 = Book("Thinking and", ["Daniel Kahneman"], "assets/images/bookimg.jpg", new Map<String, String>());
 
-Group defaultGroup = Group(0, "Chungil's Book Club", "assets/images/profileimage.png");
-Group defaultGroup2 = Group(0, "SmartSmart Book Club", "assets/images/profileimage.png");
-Group defaultGroup3 = Group(0, "Book Club", "assets/images/profileimage.png");
-Group defaultGroup4 = Group(0, "Smart Book Club gg", "assets/images/profileimage.png");
-Group defaultGroup5 = Group(0, "gg club", "assets/images/profileimage.png");
-Group defaultGroup6 = Group(0, "Club", "assets/images/profileimage.png");
-Group defaultGroup7 = Group(0, "SmartSmart Book Club", "assets/images/profileimage.png");
-Group defaultGroup8 = Group(0, "SmartSmart Book Club", "assets/images/profileimage.png");
-Group defaultGroup9 = Group(0, "SmartSmart Book Club", "assets/images/profileimage.png");
-Group defaultGroup10 = Group(0, "SmartSmart Book Club", "assets/images/profileimage.png");
-Group defaultGroup11 = Group(0, "SmartSmart Book Club", "assets/images/profileimage.png");
-
+List<Group> defaultGroups = [
+    Group(0, "Chungil's Book Club", "assets/images/profileimage.png"),
+    Group(1, "SmartSmart Book Club", "assets/images/profileimage.png"),
+    Group(2, "Book Club", "assets/images/profileimage.png"),
+    Group(3, "Smart Book Club gg", "assets/images/profileimage.png"),
+    Group(4, "gg club", "assets/images/profileimage.png"),
+    Group(5, "Club", "assets/images/profileimage.png"),
+    Group(6, "SmartSmart", "assets/images/profileimage.png"),
+    Group(7, "Chungun's Book Club", "assets/images/profileimage.png"),
+    Group(8, "Mijong's Book Club", "assets/images/profileimage.png"),
+    Group(9, "Hyeonggab's Book Club", "assets/images/profileimage.png"),
+    Group(10, "Hyojoo's Book Club", "assets/images/profileimage.png"),
+];

@@ -13,6 +13,100 @@ class GroupHome extends StatefulWidget {
 
 class _GroupHomeState extends State<GroupHome> {
   double recentBookHeight = currentUser.recentgroups.length > 0 ? 120 : 0;
+  List<Widget> myBookClubs;
+  List<Widget> myRecentBookClubs;
+
+  @override
+  void initState() {
+    myBookClubs =  _buildBookClubList(context);
+    myRecentBookClubs = _buildRecentBookClubs(context);
+    super.initState();
+  }
+
+  
+  List<Widget> _buildRecentBookClubs(BuildContext context) {
+    List<Widget> returnList = [];
+    for (var group in currentUser.recentgroups) {
+      returnList.add(_buildGroupLinkTile(context, group));
+    }
+    return returnList;
+  }
+
+  List<Widget> _buildBookClubList(BuildContext context) {
+    List<Widget> returnList = [];
+    for (var group in currentUser.groups) {
+      returnList.add(_buildGroupLinkLine(context, group));
+    }
+    return returnList;
+  }
+
+  Widget _buildGroupLinkLine(BuildContext context, Group group) {
+    return new ListTile(
+      leading: CircleAvatar(
+        radius: 20.0,
+        backgroundImage: AssetImage(group.imageUrl),
+      ),
+      title: Text(group.name),
+      onTap: () {
+          currentUser.recentgroups.add(group);
+          Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => GroupPage(group)),
+        ).then((value) {
+          setState(() {
+            myBookClubs =  _buildBookClubList(context);
+            myRecentBookClubs = _buildRecentBookClubs(context);
+            recentBookHeight = currentUser.recentgroups.length > 0 ? 120 : 0;
+          });
+        });
+      }
+    );
+  }
+  
+  Widget _buildGroupLinkTile(BuildContext context, Group group) {
+    return new Container(
+      height: 100,
+      width: 80,
+      child: Column(
+        children: <Widget>[
+          Container(
+            height: 80,
+            width: 80,
+            margin: EdgeInsets.all(5.0),
+            child: ConstrainedBox(
+              constraints: BoxConstraints.expand(),
+              child: Ink.image(
+                image: AssetImage(group.imageUrl),
+                child: InkWell(
+                    onTap: (){
+                      currentUser.recentgroups.add(group);
+                      Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => GroupPage(group)),
+                    ).then((value) {
+                      setState(() {
+                        myBookClubs =  _buildBookClubList(context);
+                        myRecentBookClubs = _buildRecentBookClubs(context);
+                        recentBookHeight = currentUser.recentgroups.length > 0 ? 120 : 0;
+                      });
+                    });
+                  }
+                ),
+              ),
+            ),
+          ),
+          Text(
+            group.name,
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 10),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+        ],
+      ),
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -61,7 +155,7 @@ class _GroupHomeState extends State<GroupHome> {
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                children: _buildRecentBookClubs(context),
+                children: myRecentBookClubs,
               ),
             ),
             Divider(color: Colors.grey),
@@ -79,76 +173,10 @@ class _GroupHomeState extends State<GroupHome> {
               ),
             ),
             Divider(color: Colors.grey),
-            Column(children: _buildBookClubList(context)),
+            Column(children: myBookClubs),
           ],
         ),
       ),
     );
   }
-}
-
-List<Widget> _buildRecentBookClubs(BuildContext context) {
-  List<Widget> returnList = [];
-  for (var group in currentUser.recentgroups) {
-    returnList.add(_buildGroupLinkTile(context, group));
-  }
-  return returnList;
-}
-
-List<Widget> _buildBookClubList(BuildContext context) {
-  List<Widget> returnList = [];
-  for (var group in currentUser.groups) {
-    returnList.add(_buildGroupLinkLine(context, group));
-  }
-  return returnList;
-}
-
-Widget _buildGroupLinkLine(BuildContext context, Group group) {
-  return new ListTile(
-    leading: CircleAvatar(
-      radius: 20.0,
-      backgroundImage: AssetImage(group.imageUrl),
-    ),
-    title: Text(group.name),
-    onTap: () => Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => GroupPage(group)),
-    ),
-  );
-}
-
-Widget _buildGroupLinkTile(BuildContext context, Group group) {
-  return new Container(
-    height: 100,
-    width: 80,
-    child: Column(
-      children: <Widget>[
-        Container(
-          height: 80,
-          width: 80,
-          margin: EdgeInsets.all(5.0),
-          child: ConstrainedBox(
-            constraints: BoxConstraints.expand(),
-            child: Ink.image(
-              image: AssetImage(group.imageUrl),
-              child: InkWell(
-                  onTap: () => Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => GroupPage(group)),
-                      )),
-            ),
-          ),
-        ),
-        Text(
-          group.name,
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 10),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-      ],
-    ),
-  );
 }

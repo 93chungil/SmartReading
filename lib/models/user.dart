@@ -18,19 +18,7 @@ class User {
   ChatUser chatUser;
   List<User> followers;
   List<User> following;
-  List<Group> groups = [
-    Group(0, "Chungil's Book Club", "assets/images/profileimage.png"),
-    Group(1, "SmartSmart Book Club", "assets/images/profileimage.png"),
-    Group(2, "Book Club", "assets/images/profileimage.png"),
-    Group(3, "Smart Book Club gg", "assets/images/profileimage.png"),
-    Group(4, "gg club", "assets/images/profileimage.png"),
-    Group(5, "Club", "assets/images/profileimage.png"),
-    Group(6, "SmartSmart", "assets/images/profileimage.png"),
-    Group(7, "Chungun's Book Club", "assets/images/profileimage.png"),
-    Group(8, "Mijong's Book Club", "assets/images/profileimage.png"),
-    Group(9, "Hyeonggab's Book Club", "assets/images/profileimage.png"),
-    Group(10, "Hyojoo's Book Club", "assets/images/profileimage.png"),
-  ];
+  List<Group> groups;
   ListQueue<Group> recentgroups = new ListQueue<Group>(10);
 
   List<UserBook> userbooks = [
@@ -63,8 +51,8 @@ class User {
   }
 
   int getGroups() {
-    groups = [];
-    return 3;
+    groups = Constants.defaultGroups;
+    return groups.length;
   }
 
   List<UserBook> getFolderBooks(String foldername) {

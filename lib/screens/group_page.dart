@@ -115,23 +115,23 @@ class _GroupPageState extends State<GroupPage> {
                   Padding(
                     padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                     child: detailsWidget(
-                        currentUser.userbooks.length.toString(), 'books'),
+                        widget.group.books.length.toString(), 'Books'),
                   ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                  //   child: detailsWidget(
+                  //       currentUser.getGroups().toString(), 'Meetings'),
+                  // ),
                   Padding(
                     padding: const EdgeInsets.only(left: 5.0, right: 5.0),
                     child: detailsWidget(
-                        currentUser.getGroups().toString(), 'groups'),
+                        widget.group.members.length.toString(), 'Members'),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                    child: detailsWidget(
-                        currentUser.getFollwers().toString(), 'followers'),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 5.0, right: 5.0),
-                    child: detailsWidget(
-                        currentUser.getFollowing().toString(), 'following'),
-                  ),
+                  // Padding(
+                  //   padding: const EdgeInsets.only(left: 5.0, right: 5.0),
+                  //   child: detailsWidget(
+                  //       currentUser.getFollowing().toString(), 'following'),
+                  // ),
                 ],
               ),
             ),

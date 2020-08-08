@@ -17,7 +17,7 @@ class _FolderPageState extends State<FolderPage> {
     return Scaffold(
       backgroundColor: Constants.MAIN_BACKGROUND,
       appBar: AppBar(
-        title: Text('똑똑해지는 독서모임'),
+        title: Text(widget.foldername),
         backgroundColor: Constants.MAIN_COLOR,
       ),
       body: GridView.count(

@@ -42,6 +42,7 @@ class _MyAppState extends State<MyApp> {
         new SpecifiedLocalizationsDelegate(new Locale("ko", ''));
     // TODO REMOVE WITH SERVER
     currentUser = User(0, 'abcd', "assets/images/profileimage.png");
+    currentUser.getGroups();
   }
 
   onLocaleChange(Locale l) {
